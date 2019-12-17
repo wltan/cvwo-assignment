@@ -1,3 +1,5 @@
+# Using the .gitignore from GitHub (Rails) instead of the Rails default .gitignore
+
 *.rbc
 capybara-*.html
 .rspec
@@ -65,3 +67,13 @@ yarn-debug.log*
 # Ignore uploaded files in development
 /storage/*
 !/storage/.keep
+
+# Ignore master key for decrypting credentials and more.
+/config/master.key
+
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
