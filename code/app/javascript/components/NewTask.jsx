@@ -7,7 +7,7 @@ class NewTask extends React.Component {
     this.state = {
       title: "",
       description: "",
-      due_date: "",
+      duedate: "",
       tags: ""
     };
 
@@ -29,10 +29,12 @@ class NewTask extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     const url = "/api/v1/tasks/create";
-    const { name, ingredients, instruction } = this.state;
+    const { title, description, duedate, tags } = this.state;
 
     if (title.length == 0)
       return;
+
+    const due_date = new Date(duedate);
 
     const body = {
       title,
@@ -62,58 +64,57 @@ class NewTask extends React.Component {
 
   render() {
     return (
-      <div className="container mt-5">
-        <div className="row">
-          <div className="col-sm-12 col-lg-6 offset-lg-3">
-            <h1 className="font-weight-normal mb-5">
+      <div class="container mt-5">
+        <div class="row">
+          <div class="col-sm-12 col-lg-6 offset-lg-3">
+            <h1 class="font-weight-normal mb-5">
               Add a new task
             </h1>
             <form onSubmit={this.onSubmit}>
-              <div className="form-group">
+              <div class="form-group">
                 <label htmlFor="taskName">Title</label>
                 <input
                   type="text"
-                  name="name"
+                  name="title"
                   id="title"
-                  className="form-control"
+                  class="form-control"
                   required
                   onChange={this.onChange}
                 />
               </div>
-              <div className="form-group">
+              <div class="form-group">
                 <label htmlFor="description">Description</label>
-                <input
-                  type="text"
+                <textarea
                   name="description"
                   id="description"
-                  className="form-control"
+                  class="form-control"
                   onChange={this.onChange}
                 />
               </div>
-              <div className="form-group">
+              <div class="form-group">
                 <label htmlFor="duedate">Due Date</label>
                 <input
                   type="date"
                   name="duedate"
                   id="duedate"
-                  className="form-control"
+                  class="form-control"
                   onChange={this.onChange}
                 />
               </div>
-              <div className="form-group">
+              <div class="form-group">
                 <label htmlFor="tags">Tags</label>
                 <input
                   type="text"
                   name="tags"
                   id="tags"
-                  className="form-control"
+                  class="form-control"
                   onChange={this.onChange}
                 />
               </div>
-              <button type="submit" className="btn custom-button mt-3">
+              <button type="submit" class="btn custom-button mt-3">
                 Create Task
               </button>
-              <Link to="/tasks" className="btn btn-link mt-3">
+              <Link to="/tasks" class="btn btn-link mt-3">
                 Back to tasks
               </Link>
             </form>
