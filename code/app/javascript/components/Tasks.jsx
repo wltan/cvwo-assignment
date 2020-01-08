@@ -23,47 +23,75 @@ class Tasks extends React.Component {
   }
   render() {
     const { tasks } = this.state;
+    const paddedIcon = {
+      paddingRight: "10px"
+    };
     const allTasks = tasks.map((task, index) => (
-      <div key={index} className="col-md-6 col-lg-4">
-        <div className="card mb-4">
-          <div className="card-body">
-            <h5 className="card-title">{task.title}</h5>
-            <Link to={`/task/${task.id}`} className="btn custom-button">
-              View Task
-            </Link>
-          </div>
-        </div>
-      </div>
+      <tr key={index} class="">
+        <td>{task.title}</td>
+        <td>{task.due_date}</td>
+        <td>{task.tags}</td>
+        <td>
+          <a><span style={paddedIcon} class="fa fa-check"></span></a>
+          <a><span style={paddedIcon} class="fa fa-eye"></span></a>
+          <a><span style={paddedIcon} class="fa fa-pencil"></span></a>
+          <a><span style={paddedIcon} class="fa fa-trash"></span></a>
+        </td>
+      </tr>
+
+      
+      // <div key={index} class="col-md-6 col-lg-4">
+      //   <div class="card mb-4">
+      //     <div class="card-body">
+      //       <h5 class="card-title">{task.title}</h5>
+      //       <Link to={`/task/${task.id}`} class="btn custom-button">
+      //         View Task
+      //       </Link>
+      //     </div>
+      //   </div>
+      // </div>
+
+
     ));
     const noTask = (
-      <div className="vw-100 vh-50 d-flex align-items-center justify-content-center">
-        <h4>
-          No tasks yet. Why not <Link to="/new_task">create one</Link>
-        </h4>
-      </div>
+      <tr>
+        <td colspan="4">
+            No tasks yet.
+        </td>
+      </tr>
     );
 
     return (
       <>
-        <section className="jumbotron jumbotron-fluid text-center">
-          <div className="container py-5">
-            <h1 className="display-4">palceholder heading</h1>
-            <p className="lead text-muted">
+        <section class="jumbotron jumbotron-fluid text-center">
+          <div class="container py-5">
+            <h1 class="display-4">placeholder heading</h1>
+            <p class="lead text-muted">
               placeholder text
             </p>
           </div>
         </section>
-        <div className="py-5">
-          <main className="container">
-            <div className="text-right mb-3">
-              <Link to="/task" className="btn custom-button">
+        <div class="py-5">
+          <main class="container">
+            <div class="text-right mb-3">
+              <Link to="/task" class="btn custom-button">
                 Create New Task
               </Link>
             </div>
-            <div className="row">
-              {tasks.length > 0 ? allTasks : noTask}
+            <div class="row">
+              <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Due Date</th>
+                    <th>Tags</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                {tasks.length > 0 ? allTasks : noTask}
+              </table>
             </div>
-            <Link to="/" className="btn btn-link">
+            <Link to="/" class="btn btn-link">
               Home
             </Link>
           </main>
