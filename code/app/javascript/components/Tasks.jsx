@@ -33,25 +33,11 @@ class Tasks extends React.Component {
         <td>{task.tags}</td>
         <td>
           <a><span style={paddedIcon} class="fa fa-check"></span></a>
-          <a><span style={paddedIcon} class="fa fa-eye"></span></a>
+          <Link to={`/task/${task.id}`}><span style={paddedIcon} class="fa fa-eye"></span></Link>
           <a><span style={paddedIcon} class="fa fa-pencil"></span></a>
           <a><span style={paddedIcon} class="fa fa-trash"></span></a>
         </td>
       </tr>
-
-      
-      // <div key={index} class="col-md-6 col-lg-4">
-      //   <div class="card mb-4">
-      //     <div class="card-body">
-      //       <h5 class="card-title">{task.title}</h5>
-      //       <Link to={`/task/${task.id}`} class="btn custom-button">
-      //         View Task
-      //       </Link>
-      //     </div>
-      //   </div>
-      // </div>
-
-
     ));
     const noTask = (
       <tr>
@@ -88,7 +74,9 @@ class Tasks extends React.Component {
                     <th>Actions</th>
                   </tr>
                 </thead>
-                {tasks.length > 0 ? allTasks : noTask}
+                <tbody>
+                  {tasks.length > 0 ? allTasks : noTask}
+                </tbody>
               </table>
             </div>
             <Link to="/" class="btn btn-link">
