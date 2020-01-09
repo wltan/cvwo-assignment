@@ -23,19 +23,16 @@ class Tasks extends React.Component {
   }
   render() {
     const { tasks } = this.state;
-    const paddedIcon = {
-      paddingRight: "10px"
-    };
     const allTasks = tasks.map((task, index) => (
       <tr key={index} class="">
         <td>{task.title}</td>
         <td>{task.due_date}</td>
         <td>{task.tags}</td>
         <td>
-          <Link to={`/task/edit/${task.id}`}><span style={paddedIcon} class="fa fa-check"></span></Link>
-          <Link to={`/task/${task.id}`}><span style={paddedIcon} class="fa fa-eye"></span></Link>
-          <Link to={`/task/edit/${task.id}`}><span style={paddedIcon} class="fa fa-pencil"></span></Link>
-          <Link to={`/task/delete/${task.id}`}><span style={paddedIcon} class="fa fa-trash"></span></Link>
+          <Link to={`/task/edit/${task.id}`}><span class="fa fa-check"></span></Link>
+          <Link to={`/task/${task.id}`}><span class="fa fa-eye"></span></Link>
+          <Link to={`/task/edit/${task.id}`}><span class="fa fa-pencil"></span></Link>
+          <Link to={`/task/delete/${task.id}`}><span class="fa fa-trash"></span></Link>
         </td>
       </tr>
     ));

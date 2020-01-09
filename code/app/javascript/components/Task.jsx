@@ -7,6 +7,9 @@ class Task extends React.Component {
     this.state = { task: { ingredients: "" } };
     this.addHtmlEntities = this.addHtmlEntities.bind(this);
     this.deleteTask = this.deleteTask.bind(this);
+    this.backToList = this.backToList.bind(this);
+    this.editTask = this.editTask.bind(this);
+    this.completeTask = this.completeTask.bind(this);
   }
 
   componentDidMount() {
@@ -41,24 +44,24 @@ class Task extends React.Component {
         params: { id }
       }
     } = this.props;
-    const url = `/api/v1/destroy/${id}`;
-    const token = document.querySelector('meta[name="csrf-token"]').content;
+    this.props.history.push(`/task/delete/${id}`);
+  }
 
-    fetch(url, {
-      method: "DELETE",
-      headers: {
-        "X-CSRF-Token": token,
-        "Content-Type": "application/json"
+  backToList() {
+    this.props.history.push(`/tasks`);
+  }
+
+  editTask() {
+    const {
+      match: {
+        params: { id }
       }
-    })
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error("Network response was not ok.");
-      })
-      .then(() => this.props.history.push("/tasks"))
-      .catch(error => console.log(error.message));
+    } = this.props;
+    this.props.history.push(`/task/edit/${id}`);
+  }
+
+  completeTask() {
+
   }
 
   render() {
@@ -66,50 +69,56 @@ class Task extends React.Component {
 
     return (
       <div class="">
-        <div class="container py-5">
-          <div class="col-sm-12 col-lg-7">
+        <div class="container">
+          <div class="text-center pt-5">
+            <h1>View Task Details</h1>
+          </div>
+          <div class="container py-5">
             <div class="row">
-              <h5 class="col-4">Title</h5>
-              <div class="col-8"
-                dangerouslySetInnerHTML={{
-                  __html: `${this.addHtmlEntities(task.title)}`
-                }}
-              />
+              <strong class="col-2">Title</strong>
+              <div class="col-10">
+                {task.title}
+              </div>
             </div>
             <div class="row">
-              <h5 class="col-4">Description</h5>
-              <div class="col-8"
-                dangerouslySetInnerHTML={{
-                  __html: `${this.addHtmlEntities(task.description)}`
-                }}
-              />
+              <strong class="col-2">Description</strong>
+              <div class="col-10">
+                {task.description}
+              </div>
             </div>
             <div class="row">
-              <h5 class="col-4">Due Date</h5>
-              <div class="col-8"
-                dangerouslySetInnerHTML={{
-                  __html: `${this.addHtmlEntities(task.due_date)}`
-                }}
-              />
+              <strong class="col-2">Due Date</strong>
+              <div class="col-10">
+                {task.due_date}
+              </div>
             </div>
             <div class="row">
-              <h5 class="col-4">Tags</h5>
-              <div class="col-8"
-                dangerouslySetInnerHTML={{
-                  __html: `${this.addHtmlEntities(task.tags)}`
-                }}
-              />
+              <strong class="col-2">Tags</strong>
+              <div class="col-10">
+                {task.tags}
+              </div>
             </div>
 
           </div>
-          <div class="col-sm-12 col-lg-5">
-            <button type="button" class="btn btn-danger" onClick={this.deleteTask}>
+          <div class="container-fluid">
+            <button type="button" class="btn btn-secondary mr-1" onClick={this.backToList}>
+              <span class="fa fa-chevron-circle-left"></span>
+              Back to Task List
+            </button>
+            <button type="button" class="btn btn-success mr-1" onClick={this.completeTask}>
+              <span class="fa fa-check"></span>
+              Complete Task
+            </button>
+            <button type="button" class="btn btn-dark mr-1" onClick={this.editTask}>
+              <span class="fa fa-pencil"></span>
+              Edit Task
+            </button>
+            <button type="button" class="btn btn-danger mr-1" onClick={this.deleteTask}>
+              <span class="fa fa-trash"></span>
               Delete Task
             </button>
+            
           </div>
-          <Link to="/tasks" class="btn btn-link">
-            Back to tasks
-          </Link>
         </div>
       </div>
     );
