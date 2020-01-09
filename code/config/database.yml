@@ -23,13 +23,13 @@ default: &default
 
 development:
   <<: *default
-  database: code_development
+  database: to_do_mgr_development
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is
   # the same name as the operating system user that initialized the database.
-  #username: code
+  #username: to_do_mgr
 
   # The password associated with the postgres role (username).
   #password:
@@ -57,10 +57,10 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: code_test
+  database: to_do_mgr_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
-# like your database password, in your source code. If your source code is
+# like your database password, in your source to_do_mgr. If your source to_do_mgr is
 # ever seen by anyone, they now have access to your database.
 #
 # Instead, provide the password as a unix environment variable when you boot
@@ -80,6 +80,6 @@ test:
 #
 production:
   <<: *default
-  database: code_production
-  username: code
-  password: <%= ENV['CODE_DATABASE_PASSWORD'] %>
+  database: to_do_mgr_production
+  username: to_do_mgr
+  password: <%= ENV['to_do_mgr_DATABASE_PASSWORD'] %>
