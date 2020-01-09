@@ -32,10 +32,10 @@ class Tasks extends React.Component {
         <td>{task.due_date}</td>
         <td>{task.tags}</td>
         <td>
-          <a><span style={paddedIcon} class="fa fa-check"></span></a>
+          <Link to={`/task/edit/${task.id}`}><span style={paddedIcon} class="fa fa-check"></span></Link>
           <Link to={`/task/${task.id}`}><span style={paddedIcon} class="fa fa-eye"></span></Link>
-          <a><span style={paddedIcon} class="fa fa-pencil"></span></a>
-          <a><span style={paddedIcon} class="fa fa-trash"></span></a>
+          <Link to={`/task/edit/${task.id}`}><span style={paddedIcon} class="fa fa-pencil"></span></Link>
+          <Link to={`/task/delete/${task.id}`}><span style={paddedIcon} class="fa fa-trash"></span></Link>
         </td>
       </tr>
     ));
