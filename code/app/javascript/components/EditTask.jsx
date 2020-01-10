@@ -5,12 +5,12 @@ class EditTask extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      task: {},
       title: "",
       description: "",
       duedate: "",
       tags: ""
     };
-
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.stripHtmlEntities = this.stripHtmlEntities.bind(this);
@@ -26,13 +26,43 @@ class EditTask extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
+  componentDidMount() {
+    const {
+      match: {
+        params: { id }
+      }
+    } = this.props;
+
+    const url = `/api/v1/show/${id}`;
+
+    fetch(url)
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("Network response was not ok.");
+      })
+      .then(response => this.setState({ task: response }))
+      .then(() => this.setState({ title: this.state.task.title }))
+      .then(() => this.setState({ description: this.state.task.description }))
+      .then(() => this.setState({ duedate: this.state.task.due_date }))
+      .then(() => this.setState({ tags: this.state.task.tags }))
+      .catch(() => this.props.history.push("/tasks"));
+  }
+
   onSubmit(event) {
     event.preventDefault();
-    const url = "/api/v1/tasks/create";
+    const {
+      match: {
+        params: { id }
+      }
+    } = this.props;
     const { title, description, duedate, tags } = this.state;
 
-    if (title.length == 0)
+    if (title.length == 0){
+      alert("Title cannot be empty!");
       return;
+    }
 
     const due_date = new Date(duedate);
 
@@ -43,9 +73,10 @@ class EditTask extends React.Component {
       tags
     };
 
+    const url = `/api/v1/update/${id}`;
     const token = document.querySelector('meta[name="csrf-token"]').content;
     fetch(url, {
-      method: "POST",
+      method: "PUT",
       headers: {
         "X-CSRF-Token": token,
         "Content-Type": "application/json"
@@ -63,12 +94,13 @@ class EditTask extends React.Component {
   }
 
   render() {
+    const { task } = this.state;
     return (
       <div class="container mt-5">
         <div class="row">
           <div class="col-sm-12 col-lg-6 offset-lg-3">
             <h1 class="font-weight-normal mb-5">
-              Add a new task
+              Edit Task
             </h1>
             <form onSubmit={this.onSubmit}>
               <div class="form-group">
@@ -80,6 +112,7 @@ class EditTask extends React.Component {
                   class="form-control"
                   required
                   onChange={this.onChange}
+                  value={this.state.title}
                 />
               </div>
               <div class="form-group">
@@ -89,6 +122,7 @@ class EditTask extends React.Component {
                   id="description"
                   class="form-control"
                   onChange={this.onChange}
+                  value={this.state.description}
                 />
               </div>
               <div class="form-group">
@@ -99,6 +133,7 @@ class EditTask extends React.Component {
                   id="duedate"
                   class="form-control"
                   onChange={this.onChange}
+                  value={this.state.duedate}
                 />
               </div>
               <div class="form-group">
@@ -109,10 +144,11 @@ class EditTask extends React.Component {
                   id="tags"
                   class="form-control"
                   onChange={this.onChange}
+                  value={this.state.tags}
                 />
               </div>
               <button type="submit" class="btn custom-button mt-3">
-                Create Task
+                Save Changes
               </button>
               <Link to="/tasks" class="btn btn-link mt-3">
                 Back to tasks

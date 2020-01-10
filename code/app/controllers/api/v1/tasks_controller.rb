@@ -21,11 +21,20 @@ class Api::V1::TasksController < ApplicationController
     end
   end
 
+  def update
+    task = Task.find(params["id"])
+    task&.update_attributes(task_params)
+    if task
+      render json: task
+    else
+      render json: task.errors
+    end
+  end
+
   def destroy
     task&.destroy
     render json: { message: 'Task deleted!' }
   end
-
 
 private
   def task_params

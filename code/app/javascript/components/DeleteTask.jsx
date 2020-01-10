@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 class DeleteTask extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { task: { ingredients: "" } };
+    this.state = { task: {} };
     this.addHtmlEntities = this.addHtmlEntities.bind(this);
     this.deleteTask = this.deleteTask.bind(this);
     this.backToTask = this.backToTask.bind(this);
