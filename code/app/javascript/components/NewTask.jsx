@@ -31,12 +31,11 @@ class NewTask extends React.Component {
     const url = "/api/v1/tasks/create";
     const { title, description, duedate, tags } = this.state;
 
-    if (title.length == 0){
+    if (title.length === 0){
       alert("Title cannot be empty!");
       return;
     }
-    alert(type(duedate));
-    if (duedate.length == 0){
+    if (duedate.length === 0){
       alert("Due date cannot be empty!");
       return;
     }
