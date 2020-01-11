@@ -29,7 +29,7 @@ class Tasks extends React.Component {
         <td>{task.due_date}</td>
         <td>{task.tags}</td>
         <td>
-          <Link to={`/task/edit/${task.id}`}><span class="fa fa-check"></span></Link>
+          <Link to={`/task/complete/${task.id}`}><span class="fa fa-check"></span></Link>
           <Link to={`/task/${task.id}`}><span class="fa fa-eye"></span></Link>
           <Link to={`/task/edit/${task.id}`}><span class="fa fa-pencil"></span></Link>
           <Link to={`/task/delete/${task.id}`}><span class="fa fa-trash"></span></Link>
@@ -48,7 +48,7 @@ class Tasks extends React.Component {
       <>
         <section class="jumbotron jumbotron-fluid text-center">
           <div class="container py-5">
-            <h1 class="display-4">placeholder heading</h1>
+            <h1 class="display-4">Main Task List</h1>
             <p class="lead text-muted">
               placeholder text
             </p>

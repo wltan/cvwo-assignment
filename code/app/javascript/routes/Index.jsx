@@ -6,6 +6,7 @@ import Task from "../components/Task";
 import NewTask from "../components/NewTask";
 import DeleteTask from "../components/DeleteTask";
 import EditTask from "../components/EditTask";
+import CompleteTask from "../components/CompleteTask";
 
 export default (
   <Router>
@@ -16,6 +17,7 @@ export default (
       <Route path="/task" exact component={NewTask} />
       <Route path="/task/delete/:id" exact component={DeleteTask} />
       <Route path="/task/edit/:id" exact component={EditTask} />
+      <Route path="/task/complete/:id" exact component={CompleteTask} />
     </Switch>
   </Router>
 );

@@ -61,12 +61,16 @@ class Task extends React.Component {
   }
 
   completeTask() {
-
+    const {
+      match: {
+        params: { id }
+      }
+    } = this.props;
+    this.props.history.push(`/task/complete/${id}`);
   }
 
   render() {
     const { task } = this.state;
-
     return (
       <div class="">
         <div class="container">
@@ -98,7 +102,12 @@ class Task extends React.Component {
                 {task.tags}
               </div>
             </div>
-
+            <div class="row">
+              <strong class="col-2">Completed</strong>
+              <div class="col-10">
+                {''+task.completed}
+              </div>
+            </div>
           </div>
           <div class="container-fluid">
             <button type="button" class="btn btn-secondary mr-1" onClick={this.backToList}>
