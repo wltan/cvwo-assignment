@@ -39,13 +39,13 @@ class Tasks extends React.Component {
   render() {
     const { tasks, searchtags, searchdue, sortby, showcompleted } = this.state;
     const MS_IN_DAY = 86400000; // milliseconds in a day
-    const tz_offset = new Date().getTimezoneOffset() * 60000;
+    const tz_offset = new Date().getTimezoneOffset() * -60000;
     const percentLeft = task => Math.round(
       100 * (new Date(task.due_date).getTime() - new Date().getTime())
       / (new Date(task.due_date).getTime() - new Date(task.created_at).getTime()));
     function highlightRow(task) {
       if(task.completed){
-        return "";
+        return "bg-success";
       }
       if((new Date(task.due_date).getTime() - new Date().getTime()) < 0) {
         // overdue
@@ -81,10 +81,10 @@ class Tasks extends React.Component {
       return ans;
     }
     const sortfns = {
-      "1": (a, b) => a.due_date < b.due_date,
+      "1": (a, b) => a.due_date > b.due_date,
       "2": (a, b) => a.title < b.title,
-      "3": (a, b) => a.created_at < b.created_at,
-      "4": (a, b) => percentLeft(a) < percentLeft(b)
+      "3": (a, b) => a.created_at > b.created_at,
+      "4": (a, b) => percentLeft(a) > percentLeft(b)
     };
     const filteredTasks = tasks.filter(filterfn).sort(sortfns[sortby]);
     const mappedTasks = filteredTasks.map((task, index) => (
