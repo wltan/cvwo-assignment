@@ -43,12 +43,34 @@ class Tasks extends React.Component {
         </td>
       </tr>
     );
+    const filters = (
+      <div class="bg-light">
+        <div class="p-3">
+          <h5>Filters</h5>
+          <form>
+            <div class="form-group">
+              Search title/tags: &nbsp;
+              <input type="text"></input>
+            </div>
+            <div class="form-group">
+              Highlight tasks due in &nbsp;
+              <input type="number"></input>
+              &nbsp; days.
+            </div>
+            <div class="form-group">
+              Sort by: &nbsp;
+              <input type="dropdown"></input>
+            </div>
+          </form>
+        </div>
+      </div>
+    );
 
     return (
       <>
         <section class="jumbotron jumbotron-fluid text-center">
           <div class="container py-5">
-            <h1 class="display-4">Main Task List</h1>
+            <h3>Main Task List</h3>
             <p class="lead text-muted">
               placeholder text
             </p>
@@ -56,13 +78,14 @@ class Tasks extends React.Component {
         </section>
         <div class="py-5">
           <main class="container">
-            <div class="text-right mb-3">
-              <Link to="/task" class="btn custom-button">
+            { filters }
+            <div class="text-center my-3">
+              <Link to="/task" class="btn btn-primary">
                 Create New Task
               </Link>
             </div>
             <div class="row">
-              <table class="table table-striped table-hover">
+              <table class="table table-hover">
                 <thead>
                   <tr>
                     <th>Title</th>
@@ -76,9 +99,6 @@ class Tasks extends React.Component {
                 </tbody>
               </table>
             </div>
-            <Link to="/" class="btn btn-link">
-              Home
-            </Link>
           </main>
         </div>
       </>
