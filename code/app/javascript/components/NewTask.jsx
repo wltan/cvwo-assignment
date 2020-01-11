@@ -113,7 +113,7 @@ class NewTask extends React.Component {
                   onChange={this.onChange}
                 />
               </div>
-              <button type="submit" class="btn custom-button mt-3">
+              <button type="submit" class="btn btn-primary mt-3">
                 Create Task
               </button>
               <Link to="/tasks" class="btn btn-link mt-3">
