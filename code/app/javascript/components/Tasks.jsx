@@ -32,6 +32,27 @@ class Tasks extends React.Component {
 
   render() {
     const { tasks, searchtags, searchdue, sortby } = this.state;
+    const MS_IN_DAY = 86400000; // milliseconds in a day
+    const tz_offset = new Date().getTimezoneOffset() * 60000;
+    const percentLeft = task => Math.round(
+      100 * (new Date(task.due_date).getTime() - new Date().getTime())
+      / (new Date(task.due_date).getTime() - new Date(task.created_at).getTime()));
+    function highlightRow(task) {
+      const threshold = Number(searchdue);
+      if(threshold){
+        return ((new Date(task.due_date).getTime() - new Date().getTime()) / MS_IN_DAY) < threshold;
+      } else {
+        return false;
+      }
+    }
+    function additionalInfo(task) {
+      return {
+        "1": Math.round((new Date(task.due_date).getTime() - new Date().getTime()) / MS_IN_DAY) + " day(s) left",
+        "2": Math.round((new Date(task.due_date).getTime() - new Date().getTime()) / MS_IN_DAY) + " day(s) left",
+        "3": "Created on " + new Date(new Date(task.created_at).getTime() + tz_offset).toISOString().split("T")[0],
+        "4": percentLeft(task) + "% time left"
+      }[sortby];
+    }
     function filterfn(task) {
       // Condition: all query tag items must be present in at any of the task tags
       const query_tag_list = searchtags.split(" ");
@@ -42,9 +63,6 @@ class Tasks extends React.Component {
         ans = ans && task_tag_list.match(query_tag_list[i]);
       return ans;
     }
-    const percentLeft = task => Math.round(
-      100 * (new Date(task.due_date).getTime() - new Date().getTime())
-      / (new Date(task.due_date).getTime() - new Date(task.created_at).getTime()));
     const sortfns = {
       "1": (a, b) => a.due_date < b.due_date,
       "2": (a, b) => a.title < b.title,
@@ -53,9 +71,9 @@ class Tasks extends React.Component {
     };
     const filteredTasks = tasks.filter(filterfn).sort(sortfns[sortby]);
     const mappedTasks = filteredTasks.map((task, index) => (
-      <tr key={index} class="">
+      <tr key={index} class={highlightRow(task) ? "bg-warning" : ""}>
         <td>{task.title}</td>
-        <td>{task.due_date} ({percentLeft(task)}%)</td>
+        <td>{task.due_date} ({additionalInfo(task)})</td>
         <td>{task.tags}</td>
         <td>
           <Link to={`/task/complete/${task.id}`}><span class="fa fa-check"></span></Link>
@@ -133,7 +151,7 @@ class Tasks extends React.Component {
                 <thead>
                   <tr>
                     <th>Title</th>
-                    <th>Due Date (% Time Left)</th>
+                    <th>Due Date</th>
                     <th>Tags</th>
                     <th>Actions</th>
                   </tr>
