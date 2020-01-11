@@ -8,13 +8,19 @@ class Tasks extends React.Component {
       tasks: [],
       searchtags: "",
       searchdue: "",
-      sortby: "1"
+      sortby: "1",
+      showcompleted: false
     };
     this.onChange = this.onChange.bind(this);
   }
 
   onChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
+    if(event.target.type === 'checkbox') {
+      this.setState({ [event.target.name]: event.target.checked });
+    } else {
+      this.setState({ [event.target.name]: event.target.value });
+    }
+    
   }
 
   componentDidMount() {
@@ -31,18 +37,25 @@ class Tasks extends React.Component {
   }
 
   render() {
-    const { tasks, searchtags, searchdue, sortby } = this.state;
+    const { tasks, searchtags, searchdue, sortby, showcompleted } = this.state;
     const MS_IN_DAY = 86400000; // milliseconds in a day
     const tz_offset = new Date().getTimezoneOffset() * 60000;
     const percentLeft = task => Math.round(
       100 * (new Date(task.due_date).getTime() - new Date().getTime())
       / (new Date(task.due_date).getTime() - new Date(task.created_at).getTime()));
     function highlightRow(task) {
+      if(task.completed){
+        return "";
+      }
+      if((new Date(task.due_date).getTime() - new Date().getTime()) < 0) {
+        // overdue
+        return "bg-danger";
+      }
       const threshold = Number(searchdue);
-      if(threshold){
-        return ((new Date(task.due_date).getTime() - new Date().getTime()) / MS_IN_DAY) < threshold;
+      if(threshold && ((new Date(task.due_date).getTime() - new Date().getTime()) / MS_IN_DAY) < threshold){
+        return "bg-warning";
       } else {
-        return false;
+        return "";
       }
     }
     function additionalInfo(task) {
@@ -54,7 +67,11 @@ class Tasks extends React.Component {
       }[sortby];
     }
     function filterfn(task) {
-      // Condition: all query tag items must be present in at any of the task tags
+      // Condition: hide completed items if the checkbox is not selected
+      if(task.completed && !showcompleted) {
+        return false;
+      }
+      // Condition: all query tag items must be a substring of any one of the task tags
       const query_tag_list = searchtags.split(" ");
       // Task tags are defined as both title words and additional tags
       const task_tag_list = task.title + " " + task.tags;
@@ -71,7 +88,7 @@ class Tasks extends React.Component {
     };
     const filteredTasks = tasks.filter(filterfn).sort(sortfns[sortby]);
     const mappedTasks = filteredTasks.map((task, index) => (
-      <tr key={index} class={highlightRow(task) ? "bg-warning" : ""}>
+      <tr key={index} class={highlightRow(task)}>
         <td>{task.title}</td>
         <td>{task.due_date} ({additionalInfo(task)})</td>
         <td>{task.tags}</td>
@@ -95,6 +112,15 @@ class Tasks extends React.Component {
         <div class="p-3">
           <h5>Filters</h5>
           <form>
+            <div class="form-group">
+              <label for="showcompleted">Show Completed Tasks: &nbsp;</label>
+              <input
+                type="checkbox"
+                id="showcompleted"
+                name="showcompleted" 
+                onChange={this.onChange}
+              />
+            </div>
             <div class="form-group">
               Search title/tags: &nbsp;
               <input
