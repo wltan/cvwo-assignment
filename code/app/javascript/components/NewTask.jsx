@@ -35,6 +35,11 @@ class NewTask extends React.Component {
       alert("Title cannot be empty!");
       return;
     }
+    alert(type(duedate));
+    if (duedate.length == 0){
+      alert("Due date cannot be empty!");
+      return;
+    }
     
     const due_date = new Date(duedate);
 
@@ -80,7 +85,7 @@ class NewTask extends React.Component {
                   name="title"
                   id="title"
                   class="form-control"
-                  required
+                  required="required"
                   onChange={this.onChange}
                 />
               </div>
@@ -100,6 +105,7 @@ class NewTask extends React.Component {
                   name="duedate"
                   id="duedate"
                   class="form-control"
+                  required="required"
                   onChange={this.onChange}
                 />
               </div>
