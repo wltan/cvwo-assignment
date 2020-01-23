@@ -18,7 +18,6 @@ WORKDIR /ruby-2.6.5
 RUN ./configure
 RUN make
 RUN make install
-RUN ruby -v
 
 # Setup gems
 RUN gem install bundler
