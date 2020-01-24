@@ -32,10 +32,10 @@ RUN apt-get install -y postgresql libpq-dev
 
 # Clone this repo and install gems
 WORKDIR /
-RUN git clone https://github.com/wltan/cvwo-assignment.git
-WORKDIR /cvwo-assignment/code
+COPY ./code /src
+WORKDIR /src
 RUN yarn install
 RUN bundle install
 
 # Start the server
-CMD rails s -e production
+CMD rails s -p 80
