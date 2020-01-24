@@ -31,9 +31,11 @@ RUN dpkg-reconfigure --frontend noninteractive tzdata
 RUN apt-get install -y postgresql libpq-dev
 
 # Clone this repo and install gems
+WORKDIR /
 RUN git clone https://github.com/wltan/cvwo-assignment.git
 WORKDIR /cvwo-assignment/code
+RUN yarn install
 RUN bundle install
 
 # Start the server
-CMD rails s
+CMD rails s -e production
