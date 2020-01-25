@@ -9,4 +9,4 @@ RUN gem install bundler
 RUN bundle install
 RUN yarn install
 
-CMD bundle exec rails s -p 3000 -b '0.0.0.0'
+CMD rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'
