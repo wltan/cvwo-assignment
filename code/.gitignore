@@ -54,10 +54,10 @@ bower.json
 # Ignore node_modules
 node_modules/
 
-# Ignore precompiled javascript packs
-/public/packs
-/public/packs-test
-#/public/assets # disabled to allow CSS to upload
+# Ignore precompiled javascript packs (disabled)
+# /public/packs
+# /public/packs-test
+# /public/assets
 
 # Ignore yarn files
 /yarn-error.log
@@ -71,9 +71,9 @@ yarn-debug.log*
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
-/public/packs
-/public/packs-test
+# /public/packs
+# /public/packs-test
 /node_modules
 /yarn-error.log
-yarn-debug.log*
+yarn-debug.log
 .yarn-integrity
