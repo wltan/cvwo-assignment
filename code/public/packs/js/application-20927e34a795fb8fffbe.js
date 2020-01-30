@@ -264,8 +264,7 @@ function (_React$Component) {
         }
 
         throw new Error("Network response was not ok.");
-      }) // TODO redirect to completed tasks list
-      .then(function (response) {
+      }).then(function (response) {
         return _this2.props.history.push("/task/".concat(response.id));
       })["catch"](function (error) {
         return console.log(error.message);
@@ -278,16 +277,16 @@ function (_React$Component) {
         "class": "container mt-5",
         __source: {
           fileName: _jsxFileName,
+          lineNumber: 46
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+        __source: {
+          fileName: _jsxFileName,
           lineNumber: 47
         },
         __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 48
-        },
-        __self: this
-      }, "Lorem ipsum"));
+      }, "Redirecting..."));
     }
   }]);
 
@@ -1689,17 +1688,22 @@ function (_React$Component) {
           searchtags = _this$state.searchtags,
           searchdue = _this$state.searchdue,
           sortby = _this$state.sortby,
-          showcompleted = _this$state.showcompleted;
+          showcompleted = _this$state.showcompleted,
+          reverse = _this$state.reverse;
       var MS_IN_DAY = 86400000; // milliseconds in a day
 
       var tz_offset = new Date().getTimezoneOffset() * -60000;
 
       var percentLeft = function percentLeft(task) {
-        return Math.round(100 * (new Date(task.due_date).getTime() - new Date().getTime()) / (new Date(task.due_date).getTime() - new Date(task.created_at).getTime()));
+        return Math.round(100 * timeLeft(task) / (new Date(task.due_date).getTime() + MS_IN_DAY - new Date(task.created_at).getTime()));
+      };
+
+      var timeLeft = function timeLeft(task) {
+        return new Date(task.due_date).getTime() - new Date().getTime() + MS_IN_DAY;
       };
 
       var days_left = function days_left(task) {
-        return 1 + (new Date(task.due_date).getTime() - new Date().getTime()) / MS_IN_DAY;
+        return timeLeft(task) / MS_IN_DAY;
       };
 
       function highlightRow(task) {
@@ -1756,16 +1760,16 @@ function (_React$Component) {
 
       var sortfns = {
         "1": function _(a, b) {
-          return a.due_date > b.due_date;
+          return reverse ^ a.due_date > b.due_date ? 1 : -1;
         },
         "2": function _(a, b) {
-          return a.title < b.title;
+          return reverse ^ a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1;
         },
         "3": function _(a, b) {
-          return a.created_at > b.created_at;
+          return reverse ^ a.created_at > b.created_at ? 1 : -1;
         },
         "4": function _(a, b) {
-          return percentLeft(a) > percentLeft(b);
+          return reverse ^ percentLeft(a) > percentLeft(b) ? 1 : -1;
         }
       };
       var filteredTasks = tasks.filter(filterfn).sort(sortfns[sortby]);
@@ -2002,45 +2006,69 @@ function (_React$Component) {
           lineNumber: 163
         },
         __self: this
-      }, "% Time Left"))))));
+      }, "% Time Left"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 166
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "reverse",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 167
+        },
+        __self: this
+      }, "Reverse Order: \xA0"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "checkbox",
+        id: "reverse",
+        name: "reverse",
+        onChange: this.onChange,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 168
+        },
+        __self: this
+      })))));
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 172
+          lineNumber: 181
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "text-center pt-5",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 173
+          lineNumber: 182
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 174
+          lineNumber: 183
         },
         __self: this
       }, "Main Task List")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "py-5",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 176
+          lineNumber: 185
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", {
         className: "container",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 177
+          lineNumber: 186
         },
         __self: this
       }, filters, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "text-center my-3",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 179
+          lineNumber: 188
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
@@ -2048,63 +2076,63 @@ function (_React$Component) {
         className: "btn btn-primary",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 180
+          lineNumber: 189
         },
         __self: this
       }, "Create New Task")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 184
+          lineNumber: 193
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
         className: "table table-hover",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 185
+          lineNumber: 194
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 186
+          lineNumber: 195
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 187
+          lineNumber: 196
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 188
+          lineNumber: 197
         },
         __self: this
       }, "Title"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 189
+          lineNumber: 198
         },
         __self: this
       }, "Due Date"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 190
+          lineNumber: 199
         },
         __self: this
       }, "Tags"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 191
+          lineNumber: 200
         },
         __self: this
       }, "Actions"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 194
+          lineNumber: 203
         },
         __self: this
       }, filteredTasks.length > 0 ? mappedTasks : noTask))))));
@@ -45938,4 +45966,4 @@ module.exports = function (module) {
 /***/ })
 
 /******/ });
-//# sourceMappingURL=application-966363e3f934fbcf96d9.js.map
+//# sourceMappingURL=application-20927e34a795fb8fffbe.js.map

@@ -20,7 +20,6 @@ class Tasks extends React.Component {
     } else {
       this.setState({ [event.target.name]: event.target.value });
     }
-    
   }
 
   componentDidMount() {
@@ -37,15 +36,16 @@ class Tasks extends React.Component {
   }
 
   render() {
-    const { tasks, searchtags, searchdue, sortby, showcompleted } = this.state;
+    const { tasks, searchtags, searchdue, sortby, showcompleted, reverse } = this.state;
     const MS_IN_DAY = 86400000; // milliseconds in a day
     const tz_offset = new Date().getTimezoneOffset() * -60000;
 
     const percentLeft = task =>
-      Math.round(100 * (new Date(task.due_date).getTime() - new Date().getTime())
-      / (new Date(task.due_date).getTime() - new Date(task.created_at).getTime()));
+      Math.round(100 * (timeLeft(task))
+      / (new Date(task.due_date).getTime() + MS_IN_DAY - new Date(task.created_at).getTime()));
     
-    const days_left = task => 1 + (new Date(task.due_date).getTime() - new Date().getTime()) / MS_IN_DAY;
+    const timeLeft = task => new Date(task.due_date).getTime() - new Date().getTime() + MS_IN_DAY;
+    const days_left = task => (timeLeft(task)) / MS_IN_DAY;
     
     function highlightRow(task) {
       if(task.completed){
@@ -92,10 +92,10 @@ class Tasks extends React.Component {
     }
 
     const sortfns = {
-      "1": (a, b) => a.due_date > b.due_date,
-      "2": (a, b) => a.title < b.title,
-      "3": (a, b) => a.created_at > b.created_at,
-      "4": (a, b) => percentLeft(a) > percentLeft(b)
+      "1": (a, b) => (reverse ^ (a.due_date > b.due_date)) ? 1 : -1,
+      "2": (a, b) => (reverse ^ (a.title.toLowerCase() > b.title.toLowerCase())) ? 1 : -1,
+      "3": (a, b) => (reverse ^ (a.created_at > b.created_at)) ? 1 : -1,
+      "4": (a, b) => (reverse ^ (percentLeft(a) > percentLeft(b)) ? 1 : -1)
     };
 
     const filteredTasks = tasks.filter(filterfn).sort(sortfns[sortby]);
@@ -162,6 +162,15 @@ class Tasks extends React.Component {
               <option value="3">Created Date</option>
               <option value="4">% Time Left</option>
               </select>
+            </div>
+            <div className="form-group">
+              <label htmlFor="reverse">Reverse Order: &nbsp;</label>
+              <input
+                type="checkbox"
+                id="reverse"
+                name="reverse" 
+                onChange={this.onChange}
+              />
             </div>
           </form>
         </div>
