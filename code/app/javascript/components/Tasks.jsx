@@ -40,16 +40,24 @@ class Tasks extends React.Component {
     const { tasks, searchtags, searchdue, sortby, showcompleted } = this.state;
     const MS_IN_DAY = 86400000; // milliseconds in a day
     const tz_offset = new Date().getTimezoneOffset() * -60000;
-    const percentLeft = task => Math.round(
-      100 * (new Date(task.due_date).getTime() - new Date().getTime())
+
+    const percentLeft = task =>
+      Math.round(100 * (new Date(task.due_date).getTime() - new Date().getTime())
       / (new Date(task.due_date).getTime() - new Date(task.created_at).getTime()));
+    
+    const days_left = task => 1 + (new Date(task.due_date).getTime() - new Date().getTime()) / MS_IN_DAY;
+    
     function highlightRow(task) {
       if(task.completed){
         return "bg-success";
       }
-      if((new Date(task.due_date).getTime() - new Date().getTime()) < 0) {
+      if(days_left(task) < 0) {
         // overdue
         return "bg-danger";
+      }
+      if(days_left(task) < 1) {
+        // due today
+        return "bg-warning";
       }
       const threshold = Number(searchdue);
       if(threshold && ((new Date(task.due_date).getTime() - new Date().getTime()) / MS_IN_DAY) < threshold){
@@ -58,14 +66,16 @@ class Tasks extends React.Component {
         return "";
       }
     }
+    
     function additionalInfo(task) {
       return {
-        "1": Math.round((new Date(task.due_date).getTime() - new Date().getTime()) / MS_IN_DAY) + " day(s) left",
-        "2": Math.round((new Date(task.due_date).getTime() - new Date().getTime()) / MS_IN_DAY) + " day(s) left",
+        "1": Math.floor(days_left(task)) + " day(s) left",
+        "2": Math.floor(days_left(task)) + " day(s) left",
         "3": "Created on " + new Date(new Date(task.created_at).getTime() + tz_offset).toISOString().split("T")[0],
         "4": percentLeft(task) + "% time left"
       }[sortby];
     }
+
     function filterfn(task) {
       // Condition: hide completed items if the checkbox is not selected
       if(task.completed && !showcompleted) {
@@ -80,12 +90,14 @@ class Tasks extends React.Component {
         ans = ans && task_tag_list.match(query_tag_list[i]);
       return ans;
     }
+
     const sortfns = {
       "1": (a, b) => a.due_date > b.due_date,
       "2": (a, b) => a.title < b.title,
       "3": (a, b) => a.created_at > b.created_at,
       "4": (a, b) => percentLeft(a) > percentLeft(b)
     };
+
     const filteredTasks = tasks.filter(filterfn).sort(sortfns[sortby]);
     const mappedTasks = filteredTasks.map((task, index) => (
       <tr key={index} class={highlightRow(task)}>
@@ -100,6 +112,7 @@ class Tasks extends React.Component {
         </td>
       </tr>
     ));
+
     const noTask = (
       <tr>
         <td colspan="4">
@@ -107,6 +120,7 @@ class Tasks extends React.Component {
         </td>
       </tr>
     );
+
     const filters = (
       <div class="bg-light">
         <div class="p-3">
