@@ -100,34 +100,34 @@ class Tasks extends React.Component {
 
     const filteredTasks = tasks.filter(filterfn).sort(sortfns[sortby]);
     const mappedTasks = filteredTasks.map((task, index) => (
-      <tr key={index} class={highlightRow(task)}>
+      <tr key={index} className={highlightRow(task)}>
         <td>{task.title}</td>
         <td>{task.due_date} ({additionalInfo(task)})</td>
         <td>{task.tags}</td>
         <td>
-          <Link to={`/task/complete/${task.id}`}><span class="fa fa-check"></span></Link>
-          <Link to={`/task/${task.id}`}><span class="fa fa-eye"></span></Link>
-          <Link to={`/task/edit/${task.id}`}><span class="fa fa-pencil"></span></Link>
-          <Link to={`/task/delete/${task.id}`}><span class="fa fa-trash"></span></Link>
+          <Link to={`/task/complete/${task.id}`}><span className="fa fa-check"></span></Link>
+          <Link to={`/task/${task.id}`}><span className="fa fa-eye"></span></Link>
+          <Link to={`/task/edit/${task.id}`}><span className="fa fa-pencil"></span></Link>
+          <Link to={`/task/delete/${task.id}`}><span className="fa fa-trash"></span></Link>
         </td>
       </tr>
     ));
 
     const noTask = (
       <tr>
-        <td colspan="4">
+        <td colSpan="4">
             No tasks yet.
         </td>
       </tr>
     );
 
     const filters = (
-      <div class="bg-light">
-        <div class="p-3">
+      <div className="bg-light">
+        <div className="p-3">
           <h4>Filters</h4>
           <form>
-            <div class="form-group">
-              <label for="showcompleted">Show Completed Tasks: &nbsp;</label>
+            <div className="form-group">
+              <label htmlFor="showcompleted">Show Completed Tasks: &nbsp;</label>
               <input
                 type="checkbox"
                 id="showcompleted"
@@ -135,7 +135,7 @@ class Tasks extends React.Component {
                 onChange={this.onChange}
               />
             </div>
-            <div class="form-group">
+            <div className="form-group">
               Search title/tags: &nbsp;
               <input
                 type="text"
@@ -144,7 +144,7 @@ class Tasks extends React.Component {
                 onChange={this.onChange}
               />
             </div>
-            <div class="form-group">
+            <div className="form-group">
               Highlight tasks due in &nbsp;
               <input
                 type="number"
@@ -154,7 +154,7 @@ class Tasks extends React.Component {
               />
               &nbsp; days.
             </div>
-            <div class="form-group">
+            <div className="form-group">
               Sort by: &nbsp;
               <select id="sortby" name="sortby" onChange={this.onChange}>
               <option value="1">Due Date</option>
@@ -170,19 +170,19 @@ class Tasks extends React.Component {
 
     return (
       <div>
-        <div class="text-center pt-5">
+        <div className="text-center pt-5">
           <h1>Main Task List</h1>
         </div>
-        <div class="py-5">
-          <main class="container">
+        <div className="py-5">
+          <main className="container">
             { filters }
-            <div class="text-center my-3">
-              <Link to="/task" class="btn btn-primary">
+            <div className="text-center my-3">
+              <Link to="/task" className="btn btn-primary">
                 Create New Task
               </Link>
             </div>
-            <div class="row">
-              <table class="table table-hover">
+            <div className="row">
+              <table className="table table-hover">
                 <thead>
                   <tr>
                     <th>Title</th>
