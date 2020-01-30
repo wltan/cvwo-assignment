@@ -35,7 +35,6 @@ class CompleteTask extends React.Component {
         }
         throw new Error("Network response was not ok.");
       })
-      // TODO redirect to completed tasks list
       .then(response => this.props.history.push(`/task/${response.id}`))
       .catch(error => console.log(error.message));
   }
@@ -45,7 +44,7 @@ class CompleteTask extends React.Component {
     
     return (
       <div class="container mt-5">
-        <h1>Lorem ipsum</h1>
+        <h3>Redirecting...</h3>
       </div>
     );
   }
