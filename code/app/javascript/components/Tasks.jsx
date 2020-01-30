@@ -110,7 +110,7 @@ class Tasks extends React.Component {
     const filters = (
       <div class="bg-light">
         <div class="p-3">
-          <h5>Filters</h5>
+          <h4>Filters</h4>
           <form>
             <div class="form-group">
               <label for="showcompleted">Show Completed Tasks: &nbsp;</label>
@@ -155,15 +155,10 @@ class Tasks extends React.Component {
     );
 
     return (
-      <>
-        <section class="jumbotron jumbotron-fluid text-center">
-          <div class="container py-5">
-            <h3>Main Task List</h3>
-            <p class="lead text-muted">
-              placeholder text
-            </p>
-          </div>
-        </section>
+      <div>
+        <div class="text-center pt-5">
+          <h1>Main Task List</h1>
+        </div>
         <div class="py-5">
           <main class="container">
             { filters }
@@ -189,7 +184,7 @@ class Tasks extends React.Component {
             </div>
           </main>
         </div>
-      </>
+      </div>
     );
   }
 

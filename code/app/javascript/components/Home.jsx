@@ -7,7 +7,7 @@ export default () => (
       <div className="container secondary-color">
         <h1 className="display-4">To-Do Manager</h1>
         <p className="lead">
-          Placeholder text
+          A CVWO Assignment Project
         </p>
         <hr className="my-4" />
         <Link
